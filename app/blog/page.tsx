@@ -8,7 +8,7 @@ export default function Blog() {
   return (
     <Layout>
       <div className="px-4 md:px-8 py-8">
-        <div className="h-24"> {/* Fixed height container for the title */}
+        <div className="h-24">
           <TypingAnimation
             text="Blog/"
             className="text-4xl md:text-6xl font-bold"
@@ -28,22 +28,21 @@ export default function Blog() {
 function BlogPost({ slug, title, date, thumbnailBase }: typeof blogPosts[number]) {
   return (
     <Link href={`/blog/${slug}`} className="block">
-      <div className="bg-gray-100 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden hover:scale-105">
-        <div className="flex items-center">
-          <div className="w-1/4">
-            <FallbackImage
-              src={`${thumbnailBase}.jpg`}
-              fallbackSrc={`${thumbnailBase}.png`}
-              alt={title}
-              width={200}
-              height={150}
-              className="w-full h-full object-cover"
-            />
-          </div>
-          <div className="w-3/4 p-4">
-            <h2 className="text-xl mb-2 text-gray-800">{title}</h2>
-            <p className="text-gray-600 text-sm">{date}</p>
-          </div>
+      <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden hover:scale-105 flex h-48">
+        <div className="w-48 h-48 relative flex-shrink-0">
+          <FallbackImage
+            src={`${thumbnailBase}.jpg`}
+            fallbackSrc={`${thumbnailBase}.png`}
+            gifSrc={`${thumbnailBase}.gif`}
+            alt={title}
+            width={192}
+            height={192}
+            className="w-full h-full object-cover"
+          />
+        </div>
+        <div className="flex-grow p-6 flex flex-col justify-center font-calibri">
+          <h2 className="text-xl font-semibold text-gray-800 mb-2">{title}</h2>
+          <p className="text-gray-600 text-sm">{date}</p>
         </div>
       </div>
     </Link>

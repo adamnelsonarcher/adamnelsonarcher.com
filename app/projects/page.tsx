@@ -15,7 +15,6 @@ export default function Projects() {
             showUnderscore={false}
           />
         </div>
-        <p className="mb-8 text-gray-400">{">"} click on any project to see more</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-7xl mx-auto">
           {projects.map((project, index) => (
             <ProjectCard key={index} {...project} />
@@ -29,7 +28,7 @@ export default function Projects() {
 function ProjectCard({ slug, title, description, thumbnailBase }: typeof projects[number]) {
   return (
     <Link href={`/projects/${slug}`} className="block">
-      <div className="bg-gray-100 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden hover:scale-105 flex h-48">
+      <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden hover:scale-105 flex h-48">
         <div className="w-2/5 relative">
           <FallbackImage
             src={`${thumbnailBase}.jpg`}
@@ -41,7 +40,7 @@ function ProjectCard({ slug, title, description, thumbnailBase }: typeof project
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="w-3/5 p-6 flex flex-col justify-center">
+        <div className="w-3/5 p-6 flex flex-col justify-center font-calibri">
           <h2 className="text-xl font-semibold text-gray-800 mb-2">{title}</h2>
           <p className="text-gray-600 text-sm">{description}</p>
         </div>
