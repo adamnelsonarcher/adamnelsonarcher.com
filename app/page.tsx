@@ -7,7 +7,6 @@ import Layout from "@/components/layout";
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
-import PulsatingButton from "@/components/ui/pulsating-button";
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
