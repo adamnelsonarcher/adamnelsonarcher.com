@@ -1,6 +1,7 @@
 import Layout from "@/components/layout";
 import Image from "next/image";
 import Link from "next/link";
+import TypingAnimation from "@/components/ui/typing-animation";
 
 interface BlogPost {
   image: string;
@@ -28,11 +29,19 @@ export default function Blog() {
 
   return (
     <Layout>
-      <h1 className="text-6xl font-bold mb-16">Blog/</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {blogPosts.map((post, index) => (
-          <BlogPost key={index} {...post} />
-        ))}
+      <div className="px-4 md:px-8 py-8">
+        <div className="h-24"> {/* Fixed height container for the title */}
+          <TypingAnimation
+            text="Blog/"
+            className="text-4xl md:text-6xl font-bold"
+            showUnderscore={false}
+          />
+        </div>
+        <div className="space-y-6 max-w-4xl">
+          {blogPosts.map((post, index) => (
+            <BlogPost key={index} {...post} />
+          ))}
+        </div>
       </div>
     </Layout>
   );
@@ -40,14 +49,18 @@ export default function Blog() {
 
 function BlogPost({ image, title, date, link }: BlogPost) {
   return (
-    <div className="mb-8">
-      <Image src={image} alt={title} width={600} height={400} className="mb-4 rounded-lg" />
-      <h2 className="text-2xl font-bold mb-2">
-        <Link href={link} className="hover:text-blue-400">
-          {title}
-        </Link>
-      </h2>
-      <p className="text-gray-400">{date}</p>
-    </div>
+    <Link href={link} className="block">
+      <div className="bg-gray-100 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden hover:scale-105">
+        <div className="flex items-center">
+          <div className="w-1/4">
+            <Image src={image} alt={title} width={200} height={150} className="w-full h-full object-cover" />
+          </div>
+          <div className="w-3/4 p-4">
+            <h2 className="text-xl mb-2 text-gray-800">{title}</h2>
+            <p className="text-gray-600 text-sm">{date}</p>
+          </div>
+        </div>
+      </div>
+    </Link>
   );
 }

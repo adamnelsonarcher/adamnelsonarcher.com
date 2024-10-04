@@ -1,23 +1,24 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
 import { cn } from "@/lib/utils";
 
 interface TypingAnimationProps {
   text: string;
   duration?: number;
   className?: string;
+  showUnderscore?: boolean;
 }
 
 export default function TypingAnimation({
   text,
   duration = 200,
   className,
+  showUnderscore = true,
 }: TypingAnimationProps) {
   const [displayedText, setDisplayedText] = useState<string>("");
   const [i, setI] = useState<number>(0);
-  const [showUnderscore, setShowUnderscore] = useState<boolean>(true);
+  const [showUnderscoreState, setShowUnderscoreState] = useState<boolean>(true);
 
   useEffect(() => {
     const typingEffect = setInterval(() => {
@@ -35,14 +36,16 @@ export default function TypingAnimation({
   }, [duration, i, text]);
 
   useEffect(() => {
-    const blinkEffect = setInterval(() => {
-      setShowUnderscore((prev) => !prev);
-    }, 600); // Blink every 500ms
+    if (showUnderscore) {
+      const blinkEffect = setInterval(() => {
+        setShowUnderscoreState((prev) => !prev);
+      }, 600);
 
-    return () => {
-      clearInterval(blinkEffect);
-    };
-  }, []);
+      return () => {
+        clearInterval(blinkEffect);
+      };
+    }
+  }, [showUnderscore]);
 
   return (
     <h1
@@ -52,7 +55,9 @@ export default function TypingAnimation({
       )}
     >
       {displayedText}
-      <span className={showUnderscore ? "opacity-100" : "opacity-0"}>_</span>
+      {showUnderscore && (
+        <span className={showUnderscoreState ? "opacity-100" : "opacity-0"}>_</span>
+      )}
     </h1>
   );
 }
