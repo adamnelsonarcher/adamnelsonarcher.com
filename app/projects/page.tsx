@@ -1,8 +1,11 @@
+'use client';
+
 import Layout from "@/components/layout";
 import Link from "next/link";
 import TypingAnimation from "@/components/ui/typing-animation";
 import { projects } from "@/lib/projectData";
 import FallbackImage from "@/components/FallbackImage";
+import { motion } from "framer-motion";
 
 export default function Projects() {
   return (
@@ -17,7 +20,14 @@ export default function Projects() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-7xl mx-auto">
           {projects.map((project, index) => (
-            <ProjectCard key={index} {...project} />
+            <motion.div
+              key={project.slug}
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: index * 0.2 }}
+            >
+              <ProjectCard {...project} />
+            </motion.div>
           ))}
         </div>
       </div>
