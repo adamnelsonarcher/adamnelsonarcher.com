@@ -6,16 +6,40 @@ import StarryBackground from "@/components/ui/starry-background";
 import Layout from "@/components/layout";
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import PulsatingButton from "@/components/ui/pulsating-button";
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const ctaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (ctaRef.current) {
+      observer.observe(ctaRef.current);
+    }
+
+    return () => {
+      if (ctaRef.current) {
+        observer.unobserve(ctaRef.current);
+      }
+    };
   }, []);
 
   const opacity = Math.max(0, 1 - scrollY / 800);
@@ -135,23 +159,35 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="cta" className="py-8 md:py-16 w-full max-w-4xl text-center">
-          <FadeText
-            text="See More"
-            className="text-2xl md:text-3xl font-bold mb-6 inline-block"
-            direction="up"
-          />
-          <div className="flex justify-center space-x-4">
-            <Link href="/projects">
-              <button className="bg-black text-white px-6 py-3 rounded-lg transition-transform duration-300 ease-in-out hover:scale-105">
-                Projects
-              </button>
-            </Link>
-            <Link href="/resume">
-              <button className="bg-black text-white px-6 py-3 rounded-lg transition-transform duration-300 ease-in-out hover:scale-105">
-                Resume
-              </button>
-            </Link>
+        <section 
+          id="cta" 
+          className="py-8 md:py-16 w-full max-w-4xl text-center relative z-10"
+          ref={ctaRef}
+        >
+          <div 
+            className={`transition-opacity ${
+              isVisible ? 'opacity-100' : 'opacity-0'
+            }`}
+            style={{ transitionDuration: '4500ms' }} // Adjust this value as needed
+          >
+            <h2 className="text-2xl md:text-3xl font-bold mb-6">Want to see more? How about my</h2>
+            <div className="flex justify-center space-x-4">
+              <Link href="/projects" passHref>
+                <span className="inline-block bg-black text-white px-6 py-3 rounded-full transition-transform duration-300 ease-in-out hover:scale-105 cursor-pointer">
+                  Projects
+                </span>
+              </Link>
+              <Link href="/resume" passHref>
+                <span className="inline-block bg-black text-white px-6 py-3 rounded-full transition-transform duration-300 ease-in-out hover:scale-105 cursor-pointer">
+                  Resume
+                </span>
+              </Link>
+              <Link href="/blog" passHref>
+                <span className="inline-block bg-black text-white px-6 py-3 rounded-full transition-transform duration-300 ease-in-out hover:scale-105 cursor-pointer">
+                  Blog
+                </span>
+              </Link>
+            </div>
           </div>
         </section>
       </div>
