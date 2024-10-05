@@ -11,7 +11,7 @@ export default function Blog() {
   return (
     <Layout>
       <div className="px-4 md:px-8 py-8">
-        <div className="h-24">
+        <div className="h-24 mb-12"> {/* Added mb-12 for more space */}
           <TypingAnimation
             text="Blog/"
             className="text-4xl md:text-6xl font-bold"

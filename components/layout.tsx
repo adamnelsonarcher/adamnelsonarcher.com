@@ -5,12 +5,21 @@ import MobileMenu from "./MobileMenu";
 interface LayoutProps {
   children: React.ReactNode;
   showStarryBackground?: boolean;
+  lightMode?: boolean;
 }
 
-export default function Layout({ children, showStarryBackground }: LayoutProps) {
+export default function Layout({ children, showStarryBackground, lightMode }: LayoutProps) {
   return (
-    <div className={`min-h-screen flex flex-col ${showStarryBackground ? 'bg-transparent' : 'bg-[#2f3338]'} text-white font-mono relative`}>
-      <header className="p-4 flex justify-between items-center top-0 z-20 bg-black bg-opacity-30 backdrop-blur-sm">
+    <div className={`min-h-screen flex flex-col ${
+      showStarryBackground 
+        ? 'bg-transparent' 
+        : lightMode
+          ? 'bg-gray-100 text-gray-900'
+          : 'bg-[#2f3338] text-white'
+    } font-mono relative`}>
+      <header className={`p-4 flex justify-between items-center top-0 z-20 ${
+        lightMode ? 'bg-white text-gray-900' : 'bg-black bg-opacity-30 backdrop-blur-sm text-white'
+      }`}>
         <Link href="/" className="text-2xl font-bold hover:text-blue-400">adamnelsonarcher.com</Link>
         <nav className="hidden md:block">
           <ul className="flex space-x-6">
@@ -28,7 +37,9 @@ export default function Layout({ children, showStarryBackground }: LayoutProps) 
         {children}
       </main>
 
-      <footer className="bg-black bg-opacity-30 backdrop-blur-sm text-center p-6 relative z-10">
+      <footer className={`${
+        lightMode ? 'bg-white text-gray-900' : 'bg-black bg-opacity-30 backdrop-blur-sm text-white'
+      } text-center p-6 relative z-10`}>
         <p className="text-sm text-gray-300">
           Designed & built by Adam Nelson-Archer, {new Date().getFullYear()}
         </p>

@@ -11,17 +11,11 @@ async function getProjectContent(slug: string) {
   if (!project) return null;
 
   const fullPath = path.join(process.cwd(), 'public', project.contentFile);
-  let contentHtml = '';
-
-  try {
-    const fileContents = await fs.readFile(fullPath, 'utf8');
-    const { content } = matter(fileContents);
-    const processedContent = await remark().use(html).process(content);
-    contentHtml = processedContent.toString();
-  } catch (error) {
-    console.error(`Error reading project content for ${slug}:`, error);
-    contentHtml = '<p>Project content is not available at the moment.</p>';
-  }
+  const fileContents = await fs.readFile(fullPath, 'utf8');
+  
+  const { content } = matter(fileContents);
+  const processedContent = await remark().use(html).process(content);
+  const contentHtml = processedContent.toString();
 
   return {
     ...project,
@@ -29,7 +23,7 @@ async function getProjectContent(slug: string) {
   };
 }
 
-export default async function Project({ params }: { params: { slug: string } }) {
+export default async function ProjectPage({ params }: { params: { slug: string } }) {
   const project = await getProjectContent(params.slug);
 
   if (!project) {
@@ -37,12 +31,11 @@ export default async function Project({ params }: { params: { slug: string } }) 
   }
 
   return (
-    <Layout>
+    <Layout lightMode>
       <div className="px-4 md:px-8 py-8">
         <h1 className="text-4xl font-bold mb-4">{project.title}</h1>
-        <p className="text-gray-500 mb-4">{project.description}</p>
         <div 
-          className="prose prose-invert max-w-none font-calibri" 
+          className="prose prose-gray max-w-none font-calibri" 
           dangerouslySetInnerHTML={{ __html: project.contentHtml }} 
         />
       </div>

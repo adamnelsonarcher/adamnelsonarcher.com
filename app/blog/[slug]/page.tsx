@@ -31,12 +31,12 @@ export default async function BlogPost({ params }: { params: { slug: string } })
   }
 
   return (
-    <Layout>
+    <Layout lightMode>
       <div className="px-4 md:px-8 py-8">
         <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
-        <p className="text-gray-500 mb-4">{post.date}</p>
+        <p className="text-gray-600 mb-4">{post.date}</p>
         <div 
-          className="prose prose-invert max-w-none font-calibri" 
+          className="prose prose-gray max-w-none font-calibri" 
           dangerouslySetInnerHTML={{ __html: post.contentHtml }} 
         />
       </div>

@@ -131,7 +131,7 @@ export default function Home() {
               <Link 
                 href={project.link}
                 key={index}
-                className="block relative bg-black p-6 rounded-lg shadow-lg group overflow-hidden transition-colors duration-300 ease-in-out hover:bg-gray-800"
+                className="block relative bg-[#141414] p-6 rounded-lg shadow-lg group overflow-hidden transition-colors duration-300 ease-in-out hover:bg-gray-800"
               >
                 <div className="flex flex-col md:flex-row items-start relative z-10">
                   <div className="w-full md:w-1/3 mb-4 md:mb-0 md:mr-6">
