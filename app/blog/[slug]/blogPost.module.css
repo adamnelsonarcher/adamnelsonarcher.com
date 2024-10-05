@@ -1,0 +1,40 @@
+.blogContent {
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.blogContent h2 {
+  font-size: 28px;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.blogContent h3 {
+  font-size: 24px;
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+.blogContent p {
+  margin-bottom: 20px;
+}
+
+.blogContent img {
+  max-width: 100%;
+  height: auto;
+  margin: 20px 0;
+}
+
+.blogContent a {
+  color: #3182ce;
+  text-decoration: underline;
+}
+
+.blogContent ul, .blogContent ol {
+  margin-bottom: 20px;
+  padding-left: 30px;
+}
+
+.blogContent li {
+  margin-bottom: 10px;
+}
