@@ -1,6 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import MobileMenu from "./MobileMenu";
+import dynamic from 'next/dynamic';
+
+const DynamicHeader = dynamic(() => import('./DynamicHeader'), { ssr: false });
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -17,23 +20,9 @@ export default function Layout({ children, showStarryBackground, lightMode }: La
           ? 'bg-gray-100 text-gray-900'
           : 'bg-[#2f3338] text-white'
     } font-mono relative`}>
-      <header className={`p-4 flex justify-between items-center top-0 z-20 ${
-        lightMode ? 'bg-white text-gray-900' : 'bg-black bg-opacity-30 backdrop-blur-sm text-white'
-      }`}>
-        <Link href="/" className="text-2xl font-bold hover:text-blue-400">adamnelsonarcher.com</Link>
-        <nav className="hidden md:block">
-          <ul className="flex space-x-6">
-            <li><Link href="/" className="text-lg hover:text-blue-400 transition-colors duration-200">Home</Link></li>
-            <li><Link href="/blog" className="text-lg hover:text-blue-400 transition-colors duration-200">Blog</Link></li>
-            <li><Link href="/projects" className="text-lg hover:text-blue-400 transition-colors duration-200">Projects</Link></li>
-            <li><Link href="/resume" className="text-lg hover:text-blue-400 transition-colors duration-200">Resume</Link></li>
-            <li><Link href="/publications" className="text-lg hover:text-blue-400 transition-colors duration-200">Publications</Link></li>
-          </ul>
-        </nav>
-        <MobileMenu />
-      </header>
+      <DynamicHeader lightMode={lightMode} />
 
-      <main className="flex-grow relative z-10">
+      <main className="flex-grow relative z-10 pt-16"> {/* Added padding-top to account for fixed header */}
         {children}
       </main>
 
