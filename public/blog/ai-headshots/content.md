@@ -118,20 +118,32 @@
 <p style="margin-left:0pt;"><span style="font-family:Arimo, Arial;">This app took about 10 minutes to set up, and was pretty cheap. It was a lot faster and resource effecient than other solutions.</span></p>
 <p style="margin-left:0pt;"><span style="font-family:Arimo, Arial;">Here are some images generated from this app.&nbsp;</span></p>
 <p style="margin-left:0pt;">&nbsp;</p>
-<figure class="image"><img src="/blog/ai-headshots/blog_images/19.jfif"></figure>
-<figure class="image"><img src="/blog/ai-headshots/blog_images/20.jfif"></figure>
-<figure class="image"><img src="/blog/ai-headshots/blog_images/21.jfif"></figure>
-<figure class="image"><img src="/blog/ai-headshots/blog_images/22.jfif"></figure>
-<p style="margin-left:auto;">&nbsp;</p>
+<div class="image-carousel">
+  <div class="carousel-container">
+    <img src="/blog/ai-headshots/blog_images/19.jfif">
+    <img src="/blog/ai-headshots/blog_images/20.jfif">
+    <img src="/blog/ai-headshots/blog_images/21.jfif">
+    <img src="/blog/ai-headshots/blog_images/22.jfif">
+ </div>
+  <div class="carousel-controls">
+    <button class="carousel-prev" onclick="plusSlides(-1, 5)">&#10094;</button>
+    <button class="carousel-next" onclick="plusSlides(1, 5)">&#10095;</button>
+  </div>
+</div>
 <p style="margin-left:auto;">&nbsp;</p>
 
 
 <h2 style="margin-left:auto;"><span style="color:rgb(0,0,0);"><strong>Photo Polishing &amp; Photoshop</strong></span></h2>
 <p style="margin-left:0pt;"><span style="font-family:Arimo, Arial;">Photoshop does cost money,<strong> </strong>but I just use </span><a target="_blank" rel="noopener noreferrer" href="https://www.photopea.com/"><span style="color:rgb(213,87,85);font-family:Arimo, Arial;"><u>Photopea</u></span></a><span style="font-family:Arimo, Arial;">, which has a lot of the same functionality. It was free and allowed you to make small changes to facial structure. I took a lot of the best images from the last couple of methods and made changes to see if I could get them working. I also took AI-generated versions of myself, and added real photos of my face onto them in Photoshop. Results are mixed. Some of these still do not look like me, but this was just general polishing of some of the images generated here.</span></p>
-<p style="margin-left:auto;">&nbsp;</p>
-<p style="margin-left:auto;">&nbsp;</p>
-<figure class="image"><img src="/blog/ai-headshots/blog_images/23.png"></figure>
-<figure class="image"><img src="/blog/ai-headshots/blog_images/24.jfif"></figure>
-<figure class="image"><img src="/blog/ai-headshots/blog_images/25.jfif"></figure>
-<figure class="image"><img src="/blog/ai-headshots/blog_images/26.jfif"></figure>
+<div class="image-carousel">
+  <div class="carousel-container">
+    <img src="/blog/ai-headshots/blog_images/23.png">
+    <img src="/blog/ai-headshots/blog_images/24.jfif">
+    <img src="/blog/ai-headshots/blog_images/25.jfif">
+    <img src="/blog/ai-headshots/blog_images/26.jfif">
+ </div>
+  <div class="carousel-controls">
+    <button class="carousel-prev" onclick="plusSlides(-1, 6)">&#10094;</button>
+    <button class="carousel-next" onclick="plusSlides(1, 6)">&#10095;</button>
+  </div>
 <p style="margin-left:auto;"><span style="color:rgb(28,28,28);">Pretty good one, now my LinkedIn photo</span></p>
