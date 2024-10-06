@@ -7,6 +7,9 @@ import Layout from "@/components/layout";
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
+import path from 'path';
+import fs from 'fs';
+import dynamic from 'next/dynamic';
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
@@ -43,6 +46,13 @@ export default function Home() {
 
   const opacity = Math.max(0, 1 - scrollY / 800);
   const seeMoreOpacity = Math.max(0, 1 - scrollY / 200);
+
+  const components = {
+    // ... (existing components)
+    img: (props: any) => (
+      <img {...props} className="single-image" />
+    ),
+  };
 
   return (
     <Layout showStarryBackground={true}>

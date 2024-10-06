@@ -3,6 +3,7 @@ import { blogPosts } from "@/lib/blogData";
 import fs from 'fs/promises';
 import path from 'path';
 import styles from '../../../styles/contentPage.module.css'; // Updated path
+import Script from 'next/script';
 
 async function getPostContent(slug: string) {
   const post = blogPosts.find(p => p.slug === slug);
@@ -38,6 +39,7 @@ export default async function BlogPost({ params }: { params: { slug: string } })
           />
         </div>
       </div>
+      <Script src="/js/imageCarousel.js" strategy="afterInteractive" />
     </Layout>
   );
 }
