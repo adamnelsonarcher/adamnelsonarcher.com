@@ -2,7 +2,7 @@ import Layout from "@/components/layout";
 import { projects } from "@/lib/projectData";
 import fs from 'fs/promises';
 import path from 'path';
-import styles from '../../../styles/contentPage.module.css'; // Updated path
+import styles from '../../../styles/contentPage.module.css'; 
 
 async function getProjectContent(slug: string) {
   const project = projects.find(p => p.slug === slug);

@@ -1,6 +1,6 @@
 let slideIndex = {};
 
-function initCarousels() {
+export function initCarousels() {
   const carousels = document.querySelectorAll('.image-carousel');
   carousels.forEach((carousel, index) => {
     slideIndex[index] = 1;
@@ -24,14 +24,5 @@ function showSlides(n, carouselIndex) {
   slides[slideIndex[carouselIndex] - 1].style.display = "block";
 }
 
-// Initialize carousels when the content is loaded
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initCarousels);
-} else {
-  initCarousels();
-}
-
-// Reinitialize carousels when the route changes (for Next.js)
-if (typeof window !== 'undefined') {
-  window.addEventListener('routeChangeComplete', initCarousels);
-}
+window.initCarousels = initCarousels;
+window.plusSlides = plusSlides;
