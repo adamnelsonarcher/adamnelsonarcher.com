@@ -7,11 +7,11 @@
 .contentWrapper {
   display: flex;
   justify-content: flex-start;
-  padding-left: 5%;
+  padding-left: 3%;
 }
 
 .content {
-  max-width: 800px;
+  max-width: 900px;
   width: 100%;
 }
 

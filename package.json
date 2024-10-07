@@ -17,6 +17,7 @@
     "gray-matter": "^4.0.3",
     "lucide-react": "^0.447.0",
     "next": "14.2.14",
+    "personal-site2": "file:",
     "react": "^18",
     "react-dom": "^18",
     "remark": "^14.0.3",

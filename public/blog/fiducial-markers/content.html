@@ -1,14 +1,139 @@
+<p style="margin-left:0pt;"><span style="font-family:Arimo, Arial;font-size:14pt;">As a part of a project I am working on, I had to segment about 4,000 images from the NASA Apollo datasets in roughly a two week window. There were too many images in too short of a time span for this to be done manually, so I looked into methods of automation. While many zero-shot models like CLIPseg, SAM, and DinoV2 were pretty good without training, they all failed to segment the fiducial markers on the image properly. The Apollo dataset, unfortunately, uses thousands of these markers-- 25 per image.&nbsp;</span></p>
+<p style="margin-left:auto;">&nbsp;</p>
 
-## Introduction
+<div style="display: flex; justify-content: space-between;">
+    <div style="width: 40%;">
+        <img src="/blog/fiducial-markers/blog_images/8.png" alt="Original Apollo dataset image showing the lunar surface with fiducial markers">
+        <p style="margin-left:0pt;text-align:center;"><span style="font-family:Arimo, Arial;">Example image from Apollo dataset</span></p>
+    </div>
+    <div style="width: 40%;">
+        <img src="/blog/fiducial-markers/blog_images/7.png" alt="CVAT's zero-shot SAM model attempt at segmenting the ground, showing inaccuracies around fiducial markers">
+        <p style="margin-left:0pt;text-align:center;"><span style="font-family:Arimo, Arial;">CVAT's zero-shot SAM model attempting to segment the ground from an image</span></p>
+    </div>
+</div>
 
-Fiducial markers play a crucial role in image segmentation, but they come with their own set of challenges...
+<p style="margin-left:auto;">&nbsp;</p>
+<p style="margin-left:0pt;"><span style="font-family:Arimo, Arial;font-size:14pt;">This appeared to be a unique problem, where I had thousands of high-resolution, domain specific images with essentially dozens of artifacts superimposed onto them.</span></p>
+<p style="margin-left:0pt;"><span style="font-family:Arimo, Arial;font-size:14pt;">I attempted to automate a solution in Photoshop or another photo-editing tool that could do a decent job inpainting. These solutions had too much overhead and were overcomplicating the problem. After some trial and error, I decided to automate the process in Python, using cv2. This would probably not give as good of an infill, but the 2-3 pixel width of these artifacts mostly negated that issue. I isolated one marker, and went through each image trying to find a match to that shape. If a match was found, an infill was performed on those pixels.</span></p>
+<p style="margin-left:auto;">&nbsp;</p>
 
-## Common Issues
+<div style="display: flex; justify-content: space-between;">
+    <div style="width: 40%;">
+        <img src="/blog/fiducial-markers/blog_images/3.jfif" alt="Original image and isolated fiducial marker">
+        <p style="margin-left:0pt;text-align:center;"><span style="font-family:Arimo, Arial;">The original image with fiducial markers</span></p>
+    </div>
+    <div style="width: 40%;">
+        <img src="/blog/fiducial-markers/blog_images/6.png" alt="Image with fiducial markers highlighted, one marker missed">
+        <p style="margin-left:0pt;text-align:center;"><span style="font-family:Arimo, Arial;">Image with the markers highlighted, note that one marker was missed</span></p>
+    </div>
+</div>
 
-1. Issue one
-2. Issue two
-3. Issue three
+<div style="display: flex; justify-content: space-between;">
+    <div style="width: 40%;">
+        <img src="/blog/fiducial-markers/blog_images/1.png" alt="Image after inpainting process, fiducial markers removed">
+        <p style="margin-left:0pt;text-align:center;"><span style="font-family:Arimo, Arial;">Image after inpainting</span></p>
+    </div>
+    <div style="width: 40%;">
+        <img src="/blog/fiducial-markers/blog_images/5.png" alt="Close-up of artifact left by inpainting process">
+        <p style="margin-left:0pt;text-align:center;"><span style="font-family:Arimo, Arial;">Artifact left by inpainting process. This noise will impact the trained model.</span></p>
+    </div>
+</div>
 
-## Solutions and Best Practices
+<p style="margin-left:auto;">&nbsp;</p>
+<p style="margin-left:0pt;"><span style="font-family:Arimo, Arial;font-size:14pt;">This process, although robust and capable of improvement, removed around 90% of fiducial markers from the total dataset, drastically improving the performance of tested segmentation models.</span></p>
+<p style="margin-left:0pt;"><span style="font-family:Arimo, Arial;font-size:14pt;">The model shown earlier, CLIPseg, was no longer generating noise around the marker locations.</span></p>
+<p style="margin-left:auto;">&nbsp;</p>
 
-To address these issues, consider the following approaches...
+<div style="display: flex; align-items: center;">
+    <img src="/blog/fiducial-markers/blog_images/4.png" alt="Improved CLIPseg model segmentation after fiducial marker removal" style="width: 50%;">
+    <div style="width: 45%; margin-left: 5%;">
+        <p style="margin-left:0pt;"><span style="font-family:Arimo, Arial;">The same zero-shot CLIPseg model attempting to segment the ground from the image.</span></p>
+        <p style="margin-left:0pt;"><span style="font-family:Arimo, Arial;">While this segmentation is not great, it shows much improvement over the result before postprocessing.</span></p>
+    </div>
+</div>
+
+<p style="margin-left:auto;">&nbsp;</p>
+<p style="margin-left:0pt;"><span style="font-family:Arimo, Arial;font-size:14pt;">I ended up training a DinoV2 model to segment these images anyway, as CLIPseg was failing to capture the file detail I needed. But this processed dataset was what I used to train my GAN, and it was used through the final product.</span></p>
+<p style="margin-left:0pt;"><span style="font-family:Arimo, Arial;font-size:14pt;">Here are the files used in this process, along with some demo images:</span></p>
+
+<div style="max-height: 500px; overflow-y: auto; overflow-x: clip; background-color: #f4f4f4; padding: 5px; border-radius: 5px;">
+    <pre><code class="language-python">
+import cv2
+import numpy as np
+import os
+import warnings
+warnings.filterwarnings("ignore")
+
+def apply_template_matching_and_inpaint(image_path, output_path, template_paths, mask_image_paths, threshold=0.6):
+    # Load the image
+    image = cv2.imread(image_path)
+    if image is None:
+        print(f"Failed to load image at {image_path}")
+        return
+
+    # Convert image to grayscale
+    image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    final_mask = np.zeros(image_gray.shape, dtype=np.uint8)
+
+    for template_path, mask_image_path in zip(template_paths, mask_image_paths):
+        # Load template
+        template = cv2.imread(template_path, 0)
+        if template is None:
+            print(f"Failed to load template at {template_path}")
+            continue
+
+        # Load mask image
+        mask_image = cv2.imread(mask_image_path, -1)
+        if mask_image is None:
+            print(f"Failed to load mask image at {mask_image_path}")
+            continue
+        if mask_image.shape[2] (less than) 4:
+            mask_image = cv2.cvtColor(mask_image, cv2.COLOR_BGR2BGRA)
+
+        # Apply template matching
+        res = cv2.matchTemplate(image_gray, template, cv2.TM_CCOEFF_NORMED)
+
+        # Threshold the results to get the match locations
+        loc = np.where(res >= threshold)
+
+        # Get dimensions of mask image
+        m_height, m_width = mask_image.shape[:2]
+
+        # Update the final mask based on detected locations
+        for pt in zip(*loc[::-1]):
+            final_mask[pt[1]:pt[1] + m_height, pt[0]:pt[0] + m_width] = mask_image[:, :, 3] // 255 * 255
+
+    # Dilate the final mask to cover more area
+    kernel_size = 6  # adjust this value
+    kernel = np.ones((kernel_size, kernel_size), np.uint8)
+    dilated_mask = cv2.dilate(final_mask, kernel, iterations=1)
+
+    # Apply inpainting using dilated mask
+    inpainted_image = cv2.inpaint(image, dilated_mask, 3, cv2.INPAINT_TELEA)
+
+    # Save
+    cv2.imwrite(output_path, inpainted_image)
+    print(f"Inpainted image saved to {output_path}")
+
+def batch_process_images(input_folder, output_folder, template_paths, mask_image_paths, threshold=0.5):
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+    for filename in os.listdir(input_folder):
+        if filename.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.tif', '.tiff')):
+            image_path = os.path.join(input_folder, filename)
+            output_path = os.path.join(output_folder, filename)
+            apply_template_matching_and_inpaint(image_path, output_path, template_paths, mask_image_paths, threshold)
+
+input_folder = '../horizon_raw'  # Path to the folder containing the raw images
+output_folder = 'output'  # Path to the folder where the processed images will be saved
+
+template_paths = ['smallPlus_extracted.png', 'largePlus_extracted.png', ]
+mask_image_paths = [ 'smallPlus_extracted.png', 'largePlus_extracted.png',]
+batch_process_images(input_folder, output_folder, template_paths, mask_image_paths)       
+    </code></pre>
+</div>
+
+<p style="margin-left:auto;">&nbsp;</p>
+
+<h2 style="margin-left:0pt;"><span style="background-color:rgba(0,0,0,0.06);font-family:'Source Code Pro', Arial;font-size:14pt;"><strong>Download Project Files</strong></span></h2>
+<p style="margin-left:0pt;"><span style="font-family:Arimo, Arial;">Code, Images and folders are uploaded to a zipped folder </span><a target="_blank" rel="noopener noreferrer" href="https://mega.nz/file/vJgwkapQ#WHKNZDW4lUWec8ifInhjrSmiC0ZM0ype3A2e1vxvPsE"><span style="color:rgb(213,87,85);font-family:Arimo, Arial;"><u>here</u></span><span style="color:rgb(28,28,28);font-family:Arimo, Arial;"> (Mega.nz link)</span></a></p>
