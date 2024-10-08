@@ -38,6 +38,11 @@
   color: #cf3e3c;
 }
 
+/* More specific rule for links within content */
+.prose a {
+  color: #cf3e3c;
+}
+
 @keyframes shimmer-slide {
   from { transform: translateX(-100%); }
   to { transform: translateX(100%); }
