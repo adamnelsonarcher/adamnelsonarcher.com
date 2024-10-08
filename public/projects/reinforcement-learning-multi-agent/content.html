@@ -1,18 +1,83 @@
-# Interactive Analysis of Reinforcement Learning in Multi-Agent Systems
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Analysis of Reinforcement Learning in Multi-Agent Systems</title>
+    <style>
+        h1, h2 { color: #2c3e50; }
+        .image-caption { text-align: match-parent; font-style: italic; margin-top: 5px; color: #666; }
+        .note { font-style: italic; color: #666; }
+    </style>
+</head>
+<body>
 
-## Project Overview
-This project provides a GUI for experimenting with SARSA and Q-learning strategies in multi-agent reinforcement learning scenarios.
+    <p>This paper presents an analysis of multi-agent reinforcement learning within controlled environments, exploring the impact of different state space complexities and learning policies. Along with the paper, a user interface is provided, making the experiments replicable and interactive.</p>
 
-## Key Features
-- Interactive visualization of agent behaviors
-- Real-time parameter adjustment
-- Comparative analysis of different learning strategies
+    <p>While the paper gives a much more comprehensive explanation of the technical aspects and results of the work, I will provide a general overview here. This is a simulation of agents in a 2D environment, attempting to learn the routes between a pickup and drop-off point.</p>
 
-## Technical Details
-The backend is implemented using...
+    <p>Below is a preview of what a 2D gridworld might look like. D/P are pickup and drop-off points, respectively.</p>
 
-## Use Cases
-This tool is particularly useful for...
+    <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+        <div style="flex: 1; margin-right: 10px;">
+            <img src="/projects/reinforcement-learning-multi-agent/images/(1).png" alt="2D Gridworld Preview" style="width: 100%; height: auto;">
+            <p class="image-caption" style="text-align: center;">2D Gridworld Preview</p>
+        </div>
+        <div style="flex: 1; margin-left: 10px;">
+            <img src="/projects/reinforcement-learning-multi-agent/images/(5).png" alt="Example of a more complex gridworld" style="width: 100%; height: auto;">
+            <p class="image-caption" style="text-align: center;">Example of a more complex gridworld</p>
+        </div>
+    </div>
 
-## Future Development
-We plan to expand the project by...
+    <p>These pickup/drop-off points can be moved randomly, they can have maximum storage capacities, they can only accept packages from certain agents, and much more can be done to test highly specific scenarios.</p>
+
+    <h2>Simulation Configuration</h2>
+
+    <p>Below is a screenshot from the "simulation configuration" section of the software.</p>
+
+    <img src="/projects/reinforcement-learning-multi-agent/images/(4).png" alt="Simulation Configuration">
+    <p class="image-caption">Simulation Configuration Interface</p>
+
+    <p>Once the simulation has been configured, you can move step-by-step to see how the agents act. The agent's estimated value of a given square is shown on the right of the screen. You can see their entire q-table in the "charts and data" tab, as well.</p>
+
+    <img src="/projects/reinforcement-learning-multi-agent/images/(3).png" alt="Simulation View">
+    <p class="image-caption">Simulation View with Agent Actions and Values</p>
+
+    <h2>Performance Metrics</h2>
+
+    <p>As the simulation runs, certain variables should be improving, such as the total number of steps used by an agent to complete all payload deliveries. If these values are not improving, you probably need to play with the settings or environment to see what variable is restricting the learning process.</p>
+
+    <div style="display: flex; align-items: flex-start; margin-bottom: 20px;">
+        <div style="flex: 1; margin-right: 20px;">
+            <img src="/projects/reinforcement-learning-multi-agent/images/(2).png" alt="Performance Chart" style="width: 100%; height: auto;">
+        </div>
+        <div style="flex: 1;">
+            <p class="image-caption" style="margin-top: 40px;">Total number of steps per episode, note the downward trend.</p>
+            <p class="note">Here, "blockages" is when an agent wants to go to a given square, but that square is occupied by another agent.</p>
+        </div>
+    </div>
+
+    <h2>Agent Behavior Visualization</h2>
+
+    <div style="display: flex; align-items: flex-start; margin-bottom: 20px;">
+        <div style="flex: 1; margin-right: 20px;">
+            <img src="/projects/reinforcement-learning-multi-agent/images/(1).gif" alt="Agents with minimal training" style="width: 100%; height: auto;">
+        </div>
+        <div style="flex: 1;">
+            <p class="image-caption" style="margin-top: 40px;">Agents moving around in simulated world, with minimal training. Note the behavior of A2 when it encounters the empty pickup point.</p>
+        </div>
+    </div>
+
+    <div style="display: flex; align-items: flex-start; margin-bottom: 20px;">
+        <div style="flex: 1; margin-right: 20px;">
+            <img src="/projects/reinforcement-learning-multi-agent/images/(2).gif" alt="Agents with more training" style="width: 100%; height: auto;">
+        </div>
+        <div style="flex: 1;">
+            <p class="image-caption" style="margin-top: 40px;">By contrast, the movement of agents with more training</p>
+        </div>
+    </div>
+
+    <p><br>&nbsp;</p>
+    <p>To learn more, <a href="https://docs.google.com/document/d/1n4p5mlrmTRLL90nukS47a-bfTqnGFLhJU00xOXPZfPY/pub" target="_blank" rel="noopener noreferrer">read the paper</a> or get the project code <a href="https://github.com/spartan24032/Project-AI?" target="_blank" rel="noopener noreferrer">on GitHub</a>.</p>
+</body>
+</html>

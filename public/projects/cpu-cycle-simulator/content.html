@@ -1,18 +1,98 @@
-# CPU Cycle Simulator
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPU Cycle Simulator</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        h1, h2 { color: #2c3e50; }
+        .image-container { margin-bottom: 20px; }
+        .image-caption { text-align: left; font-style: italic; margin-top: 5px; color: #666; }
+        .image-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .image-column {
+            flex: 1;
+            margin-right: 20px;
+        }
+        .image-column:last-child {
+            margin-right: 0;
+        }
+        .code-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .code-block {
+            background-color: #1d1d1d;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            font-family: monospace;
+            white-space: pre;
+            overflow-x: auto;
+        }
+        .input-block {
+            width: 30%;
+        }
+        .output-block {
+            width: 65%;
+        }
+    </style>
+</head>
+<body>
 
-## Project Overview
-This project simulates round robin cycle scheduling at a low level, providing insights into CPU operations.
+    <p>This project is a round-robin simulator, written in C++, made just to deepen my understanding of low-level computer processes and the foundations of OS process management.</p>
 
-## Key Features
-- Accurate representation of CPU cycle allocation
-- Visualization of process queues and execution
-- Configurable time quantum and process parameters
+    <p>This project allows users to schedule processes and simulates the round-robin scheduling algorithm by calculating the time allocation for each process and estimating their completion times. The simulator provides a way to explore how operating systems manage process execution, making it a helpful tool for studying CPU scheduling.</p>
 
-## Technical Implementation
-The simulator is built using...
+    <p>This code closely mirrors how real task schedulers determine which tasks are allocated CPU resources.</p>
 
-## Educational Value
-This tool helps students and professionals understand...
+    <h2> Input/Output Example</h2>
 
-## Future Enhancements
-We're considering adding support for...
+    <div class="code-container">
+        <pre class="code-block input-block"><code class="language-plaintext">INPUT
+
+BSIZE 4096
+START 0
+CORE 200
+
+READ 256
+CORE 30
+DISPLAY 100
+CORE 10
+INPUT 900
+CORE 10
+WRITE 256
+CORE 30</code></pre>
+
+        <pre class="code-block output-block"><code class="language-plaintext">OUTPUT
+            
+main queue entered, looking at top process. It is: 0 CORE
+
+Core Completion called with 0 CORE
+process info- GLOBAL clock time: 200 completion time: 200
+logReads: 0 phyReads: 0 phyWrites: 0
+entry data: 0 1 10
+process instruction:: READ and time: 256
+write or read was taken, go to ssd request
+
+SSDRequest reached with 0 READ
+physical read, push to main queue or SSD queue if SSD full
+
+handle buffer called. Bytes needed: 256 Current Buffer Size: 0
+Final buffer size: 3840
+
+...
+
+Process 0 terminates at 1280.2 ms
+physical reads: [1] logical reads: [0] physical writes: [1]
+
+Process Table:
+Process 0: Terminated</code></pre>
+    </div>
+</body>
+</html>

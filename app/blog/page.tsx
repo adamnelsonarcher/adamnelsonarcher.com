@@ -61,9 +61,9 @@ function BlogPost({ slug, title, date, thumbnailBase }: typeof blogPosts[number]
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="flex-grow p-6 flex flex-col justify-center font-calibri">
-          <h2 className="text-xl font-semibold text-gray-800 mb-2">{title}</h2>
-          <p className="text-gray-600 text-sm">{date}</p>
+        <div className="flex-grow p-6 flex flex-col justify-center">
+          <h2 className="text-xl font-semibold text-gray-800 mb-2 font-calibri">{title}</h2>
+          <p className="text-gray-600 text-sm font-mono">{date}</p>
         </div>
       </div>
     </Link>

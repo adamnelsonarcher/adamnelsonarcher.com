@@ -28,13 +28,13 @@ export default function DynamicHeader({ lightMode }: DynamicHeaderProps) {
           ? 'bg-white text-gray-900'
           : 'bg-transparent text-white'
     }`}>
-      <Link href="/" className="text-2xl font-bold hover:text-blue-400">adamnelsonarcher.com</Link>
+      <Link href="/" className="text-2xl hover:text-blue-400">adamnelsonarcher.com</Link>
       <nav className="hidden md:block">
         <ul className="flex space-x-6">
           <li><Link href="/" className="text-lg hover:text-blue-400 transition-colors duration-200">Home</Link></li>
           <li><Link href="/blog" className="text-lg hover:text-blue-400 transition-colors duration-200">Blog</Link></li>
           <li><Link href="/projects" className="text-lg hover:text-blue-400 transition-colors duration-200">Projects</Link></li>
-          <li><Link href="/resume" className="text-lg hover:text-blue-400 transition-colors duration-200">Resume</Link></li>
+          <li><Link href="/resume" className="text-lg hover:text-blue-400 transition-colors duration-200">Resume/About</Link></li>
           <li><Link href="/publications" className="text-lg hover:text-blue-400 transition-colors duration-200">Publications</Link></li>
         </ul>
       </nav>

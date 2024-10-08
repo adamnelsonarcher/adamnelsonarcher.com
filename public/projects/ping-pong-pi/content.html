@@ -1,18 +1,116 @@
-# Ping Pong Pi
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ping Pong Pi</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        h1, h2 { color: #2c3e50; }
+        .image-caption { text-align: left; font-style: italic; margin-top: 5px; }
+    </style>
+</head>
+<body>
 
-## Project Overview
-Ping Pong Pi is an interactive game scoreboard built on a Raspberry Pi, designed to track ping pong stats for a group of players.
+    <p>This is a score tracking system developed for a group ping pong environment. It is written in Python and runs on a Raspberry Pi.</p>
 
-## Key Features
-- Real-time score tracking
-- Player statistics and leaderboards
-- Customizable game modes
+    <p>The system uses the ELO ranking algorithm to dynamically adjust player scores based on game outcomes, rewarding wins against higher-ranked opponents. Players' scores are tracked over time, with both monthly and lifetime win/loss records. The system uses a graphical user interface built with PyQt5, offering a user-friendly way to manage players, view leaderboards, and track ongoing games.</p>
 
-## Technical Implementation
-The system is built using...
+    <p>It also includes management and security functionalities like password-protected player profiles, the ability to add and delete user profiles, and the ability to manually edit a score.</p>
 
-## User Experience
-Players can interact with the scoreboard by...
+    <img src="/projects/ping-pong-pi/images/(2).png" alt="Scoreboard display">
+    <p class="image-caption">Scoreboard display populated with test names and scores</p>
+    
+    <p><br>&nbsp;</p>
+    <h2>Score Formula and Tracking</h2>
 
-## Future Enhancements
-We're considering adding features such as...
+    <p>The formula to track the score is a bit complex, as it factors in the total amount won or lost, and the "expected outcome" of the other players. If you were expected to win and get beat by an underdog, you will lose a lot more than if you lose to someone who is ranked closely to you. Additionally, if you lose by a lot, you lose more points than if you lost by 1 or 2 game points.</p>
+
+    <p>Score change is calculated by:</p>
+
+    <pre><code class="language-python">
+K = 70 + point_difference*6
+# Calculate the K factor based on the point difference
+if player_is_unranked and opponent_is_unranked:
+    K = K*1.15 # Both players are unranked, 15% increase in volatility
+elif player_is_unranked:
+    K = K*1.15 # 15% increase in volatility for unranked player
+elif opponent_is_unranked:
+    K = 20   # The ranked player only gains/loses a maximum of 20 points
+else:
+    pass  # Both players are ranked, normal scoring applies
+
+result = 1 if won else 0
+expected_score = 1 / (1 + 10 ** ((opponent.score - self.score) / 400))
+score_change = K * (result - expected_score)
+self.score += score_change
+self.games_played += 1
+    </code></pre>
+
+    <p>To change the volatility of the score calculations, increase k.</p>
+
+    <p>To view a player's lifetime score, and see their score over time, double click on a player name. You will see a display like this:</p>
+
+    <img src="/projects/ping-pong-pi/images/(1).png" alt="Player statistics display">
+
+    <p>Note that lifetime score is distinct from "monthly" score. For more info on that, see admin controls.</p>
+
+    
+    <h2>The Scoreboard</h2>
+
+    <p>There is a scoreboard display that takes up the screen while a game is in progress. This can be controlled by key inputs or with a mouse. When a game ends from this state, the game history, player scores/rankings, and data display are all updated automatically.</p>
+
+    <img src="/projects/ping-pong-pi/images/(9).png" alt="Game in progress display">
+
+    <h2>Player Accounts</h2>
+
+    <p>I set up a pretty basic player account system where you can create a profile with a password, and you need to enter that password each time you want to play. This is to prevent a bad actor from coming in and creating a lot of artificial wins/losses for certain players, but it is a pretty weak security feature. Passwords are stored as plaintext in players.txt, and only serves as a basic deterrent from malicious behavior.</p>
+
+    <p><br>&nbsp;</p>
+    <h1>The Software</h1>
+
+    <h2>Running the program</h2>
+
+    <p>To use the program, just run <code>ping_pong.py</code>, and load in the scores. I would recommend loading the program with the test files (included in the GitHub) as it can have some weird behaviors/crash when trying to load in game history and there are only blank files. Once you create a player profile, feel free to delete the dummy accounts. This might get fixed in the future, but currently I see no demand for this to get changed.</p>
+
+    <img src="/projects/ping-pong-pi/images/(8).png" alt="Project file structure">
+
+    <p>Here is the current file structure for the project. Note that all of the game history files are stored in the same directory as the primary program engine. I attempted to break up the functions of the program into modules, but a majority of the logic is still within <code>ping_pong.py</code>.</p>
+
+    <p>This program was built for a TV display, where many people could watch and play. It is currently set up in a room where it is always on, ping pong is the only thing that happens in that room. I say this to explain that this program is not optimized for smaller screen sizes, and it is intended to stay on between games. Some of the features will be lost if the program is turned off and on between games.</p>
+
+    <h2>Controls and Usages</h2>
+
+    <p>Currently, all of the game controls are mapped to number keys (this is because I control the program with a numpad, see "the hardware" for more on that). These controls can be found/modified in <code>keyPressEvent()</code> in <code>scoreboardDialog.py</code>. All of the controls have on-screen buttons as well, but here is the current key mapping.</p>
+
+    <img src="/projects/ping-pong-pi/images/(7).png" alt="Key mapping for controls">
+
+    <h2>Admin Controls</h2>
+
+    <p>Certain functions are behind an admin passcode, like the ability to manually set a score or delete players. To set the admin password, it needs to be hard coded into <code>ping_pong.py</code>, in <code>open_admin_controls_dialog()</code></p>
+
+    <p>The admin controls popup is pictured here as well. The "reset all scores" button does not delete lifetime scores, it just sets the current game to a blank slate. I use this to implement a "monthly score" feature, but you could reset the scoreboard as little or as frequently as needed.</p>
+
+    <img src="/projects/ping-pong-pi/images/(6).png" alt="Admin controls popup">
+
+    <p><br>&nbsp;</p>
+    <h1>The Hardware</h1>
+
+    <p>This runs on a Raspberry Pi 3, which is just what I had available when I started this mini-project. I originally intended to wire buttons to the Pi, so you could hit buttons to change the score mid-game. I ended up using a Bluetooth numpad, as this was much easier to set up with the Python scripts. I painted numbers (like +1 and -1) to correspond to player actions, but there was not much tech customization that went into this. I am using a mouse & keyboard Bluetooth bundle for the main menu screen, which allows users to use a mouse to select their profile and check out game scores and history.</p>
+
+    <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+        <div style="flex: 1; margin-right: 10px;">
+            <img src="/projects/ping-pong-pi/images/(5).png" alt="Raspberry Pi 3 with USB Bluetooth attached" style="width: 100%; height: auto;">
+            <p class="image-caption">Raspberry Pi 3 with USB Bluetooth attached</p>
+        </div>
+        <div style="flex: 1; margin-right: 10px;">
+            <img src="/projects/ping-pong-pi/images/(4).png" alt="Numpad for Scorekeeping" style="width: 100%; height: auto;">
+            <p class="image-caption">Numpad for Scorekeeping</p>
+        </div>
+        <div style="flex: 1;">
+            <img src="/projects/ping-pong-pi/images/(3).png" alt="TV Display" style="width: 100%; height: auto;">
+            <p class="image-caption">TV Display</p>
+        </div>
+    </div>
+</body>
+</html>

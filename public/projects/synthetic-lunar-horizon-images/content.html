@@ -1,19 +1,13 @@
-# Generating Synthetic Lunar Horizon Images
-
-## Project Overview
-
-This project focuses on generating realistic lunar horizon imagery using advanced AI techniques.
-
-## Key Features
-
-- Utilizes GANs (Generative Adversarial Networks) for image synthesis
-- Incorporates real lunar surface data for accuracy
-- Customizable parameters for different lunar conditions
-
-## Technical Details
-
-The implementation involves...
-
-## Future Work
-
-In the next phase, we plan to...
+<p style="margin-left:0pt;"><span style="font-family:Arimo, Arial;"><strong>Abstract:</strong> Images of landscapes and horizons can be a valuable way to estimate or visualize unknown terrain, such as the lunar surface. Since there are limited global datasets of every single possible horizon from the lunar surface, we need synthetic imagery to fill the gap. However, current generative models struggles to produce horizons that accurately represent real-world features. This report addresses the initial steps in generating realistic horizon imagery, which can be vital for advancing planetary imaging techniques and furthering our understanding of unknown landscapes. The work involved fine-tuning and training a Generative Adversarial Network (GAN) model, supported by a heavily preprocessed dataset of Apollo lunar images segmented with a DINOv2 model. A novel graphical user interface was developed to enable real-time interaction with the image generation process. Preliminary findings indicate that the Pix2PixHD model can produce visually and scientifically accurate lunar horizon images. These early contributions lay the groundwork for further development, with future work focusing on integrating georeferenced Lunar Reconnaissance Orbiter (LRO) data to automate the generation of accurate, diverse lunar landscape images.</span></p>
+<p style="margin-left:auto;">&nbsp;</p>
+<figure class="image image_resized" style="width:885.031px;"><img style="aspect-ratio:1111/712;" src="/projects/synthetic-lunar-horizon-images/images/3.png" width="1511" height="712"></figure>
+<p style="margin-left:auto;">&nbsp;</p>
+<p style="margin-left:0pt;"><span style="font-family:Arimo, Arial;">This project was the foundational research for a larger project that could be completed within a year. This research was conducted with the DAIS research team at the University of Houston.</span></p>
+<p style="margin-left:0pt;"><span style="font-family:Arimo, Arial;">This project focused in the gray area/shaded area in the diagram above, which is all about creating a model and data preprocessing pipeline to train the model with.</span></p>
+<p style="margin-left:0pt;"><span style="font-family:Arimo, Arial;">This was paper presents the development and implementation of a Pix2pixHD model for generating synthetic lunar horizon images. The project focused on preprocessing a dataset of Apollo lunar images, including the removal of fiducial markers, and fine-tuning the DinoV2 model for accurate segmentation. A GUI was also created, allowing users to interact with the generated images in real-time. This work establishes the foundation for future enhancements, such as incorporating Lunar Reconnaissance Orbiter (LRO) data to achieve landscape-accurate images and expanding the dataset for broader applications in lunar exploration and machine learning research.</span></p>
+<p><br>&nbsp;</p>
+<p style="margin-left:0pt;"><span style="font-family:Arimo, Arial;">While the paper has not been published yet, </span><a target="_blank" rel="noopener noreferrer" href="https://www.adamnelsonarcher.com/blog/fiducialmarkers"><span style="color:rgb(213,87,85);font-family:Arimo, Arial;"><u>this blog post</u></span></a><span style="font-family:Arimo, Arial;"> talks about one specific part of the preprocessing pipeline, and I will provide some output results.</span></p>
+<p style="margin-left:auto;">&nbsp;</p>
+<img src="/projects/synthetic-lunar-horizon-images/images/1.png">
+<p><br>&nbsp;</p>
+<img src="/projects/synthetic-lunar-horizon-images/images/2.png">

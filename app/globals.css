@@ -34,6 +34,10 @@
   font-family: 'Calibri', sans-serif;
 }
 
+.custom-link-color {
+  color: #cf3e3c;
+}
+
 @keyframes shimmer-slide {
   from { transform: translateX(-100%); }
   to { transform: translateX(100%); }

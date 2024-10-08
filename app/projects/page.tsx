@@ -11,7 +11,7 @@ export default function Projects() {
   return (
     <Layout>
       <div className="px-4 md:px-8 py-8">
-        <div className="h-24 mb-12"> {/* Added mb-12 for more space */}
+        <div className="h-24 mb-12">
           <TypingAnimation
             text="Projects/"
             className="text-4xl md:text-6xl font-bold"
@@ -50,9 +50,9 @@ function ProjectCard({ slug, title, description, thumbnailBase }: typeof project
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="w-3/5 p-6 flex flex-col justify-center font-calibri">
-          <h2 className="text-xl font-semibold text-gray-800 mb-2">{title}</h2>
-          <p className="text-gray-600 text-sm">{description}</p>
+        <div className="w-3/5 p-6 flex flex-col justify-center">
+          <h2 className="text-xl font-semibold text-gray-800 mb-2 font-calibri">{title}</h2>
+          <p className="text-gray-600 text-sm font-mono">{description}</p>
         </div>
       </div>
     </Link>
